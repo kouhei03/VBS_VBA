@@ -1,8 +1,14 @@
 Attribute VB_Name = "Mod03_閉じたブック取得"
 Option Explicit
+' ファイル処理概要: ADOでDBへ接続、レコードセットをシートへ転記、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: 閉じたブックからデータ取得を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、ADO、対象DBドライバまたはOLE DBプロバイダー、DB接続権限。
+' ファイル実行例: ExcelのAlt+F8から「閉じたブックからデータ取得」を選択して実行する。
 
 ' ACE OLE DB経由で、Excelで開かずに別ブックの表を読み込む。
 ' 実行環境に Microsoft Access Database Engine (ACE) が必要。
+' ── 閉じたブックからデータ取得 ──
 Public Sub 閉じたブックからデータ取得()
     Dim sourcePath As String
     sourcePath = SelectExcelFile()
@@ -97,6 +103,7 @@ Failed:
            "SELECT文のシート名・列名と、ACE Providerのインストールを確認してください。", vbCritical
 End Sub
 
+' ── SelectExcelFile ──
 Private Function SelectExcelFile() As String
     With Application.FileDialog(msoFileDialogFilePicker)
         .Title = "データを取得するExcelブックを選択してください"
@@ -106,3 +113,7 @@ Private Function SelectExcelFile() As String
         If .Show = -1 Then SelectExcelFile = .SelectedItems(1)
     End With
 End Function
+
+
+
+

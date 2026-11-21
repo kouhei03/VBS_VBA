@@ -1,8 +1,14 @@
 Attribute VB_Name = "Mod02_期限アラート"
 Option Explicit
+' ファイル処理概要: ブック・シートを処理、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: 期限アラートを表示を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「期限アラートを表示」を選択して実行する。
 
 ' 期限管理シートから通知対象を抽出し、「期限アラート」シートに表示する。
 ' 日数は各行の「何日前から通知」列に入力する。
+' ── 期限アラートを表示 ──
 Public Sub 期限アラートを表示()
     On Error GoTo Failed
 
@@ -71,12 +77,14 @@ Failed:
     MsgBox "期限アラートの作成に失敗しました: " & Err.Description, vbCritical
 End Sub
 
+' ── InvalidSummary ──
 Private Function InvalidSummary(ByVal invalidCount As Long) As String
     If invalidCount > 0 Then
         InvalidSummary = vbCrLf & "期限または通知日数が不正な行: " & invalidCount & " 件"
     End If
 End Function
 
+' ── EnsureHeaders ──
 Private Sub EnsureHeaders(ByVal ws As Worksheet)
     Dim expected As Variant
     expected = Array("タスク・契約名", "期限", "担当者", "メールアドレス", _
@@ -90,6 +98,7 @@ Private Sub EnsureHeaders(ByVal ws As Worksheet)
     Next i
 End Sub
 
+' ── LastUsedRow ──
 Private Function LastUsedRow(ByVal ws As Worksheet) As Long
     Dim found As Range
     Set found = ws.Cells.Find(What:="*", LookIn:=xlFormulas, _
@@ -97,6 +106,7 @@ Private Function LastUsedRow(ByVal ws As Worksheet) As Long
     If Not found Is Nothing Then LastUsedRow = found.Row
 End Function
 
+' ── GetOrCreateSheet ──
 Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As String) As Worksheet
     On Error Resume Next
     Set GetOrCreateSheet = wb.Worksheets(sheetName)
@@ -106,3 +116,7 @@ Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As Strin
         GetOrCreateSheet.Name = sheetName
     End If
 End Function
+
+
+
+

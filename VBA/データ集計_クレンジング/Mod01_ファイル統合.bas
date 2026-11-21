@@ -1,5 +1,10 @@
 Attribute VB_Name = "Mod01_ファイル統合"
 Option Explicit
+' ファイル処理概要: ブック・シートを処理、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: 複数ファイル統合を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「複数ファイル統合」を選択して実行する。
 
 '==================================================
 ' Mod01_ファイル統合
@@ -16,6 +21,7 @@ Private Const MASTER_SHEET As String = "マスター"
 '--------------------------------------------------
 ' メイン: フォルダ内の全Excelファイルを統合
 '--------------------------------------------------
+' ── 複数ファイル統合 ──
 Public Sub 複数ファイル統合()
     Dim folderPath As String
     folderPath = SelectFolder("統合するExcelファイルが入ったフォルダを選択")
@@ -66,6 +72,7 @@ End Sub
 '--------------------------------------------------
 ' メイン: このブック内の全シートを統合
 '--------------------------------------------------
+' ── 複数シート統合 ──
 Public Sub 複数シート統合()
     Dim wsMaster As Worksheet
     Set wsMaster = GetOrCreateSheet(ThisWorkbook, MASTER_SHEET)
@@ -97,6 +104,7 @@ End Sub
 ' 1シート分のデータをマスターへコピー
 ' 戻り値: コピーした行数（ヘッダー除く）
 '--------------------------------------------------
+' ── CopyToMaster ──
 Private Function CopyToMaster(ByVal wsSrc As Worksheet, _
                               ByVal wsMaster As Worksheet, _
                               ByVal sourceName As String) As Long
@@ -127,3 +135,7 @@ Private Function CopyToMaster(ByVal wsSrc As Worksheet, _
 
     CopyToMaster = lastRow - 1
 End Function
+
+
+
+

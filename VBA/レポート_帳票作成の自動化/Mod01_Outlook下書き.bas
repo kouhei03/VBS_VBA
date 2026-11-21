@@ -1,10 +1,16 @@
 Attribute VB_Name = "Mod01_Outlook下書き"
 Option Explicit
+' ファイル処理概要: Outlookを操作、ブック・シートを処理、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: メール送信シートを準備を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、クラシックOutlook、Outlookプロファイル。
+' ファイル実行例: ExcelのAlt+F8から「メール送信シートを準備」を選択して実行する。
 
 Private Const MAIL_SHEET As String = "メール送信"
 Private Const DEADLINE_SHEET As String = "期限管理"
 
 ' メール送信シートの標準見出しを作成する。
+' ── メール送信シートを準備 ──
 Public Sub メール送信シートを準備()
     Dim ws As Worksheet
     Set ws = GetOrCreateSheet(ThisWorkbook, MAIL_SHEET)
@@ -18,6 +24,7 @@ Public Sub メール送信シートを準備()
 End Sub
 
 ' 期限管理シートの標準見出しを作成する。
+' ── 期限管理シートを準備 ──
 Public Sub 期限管理シートを準備()
     Dim ws As Worksheet
     Set ws = GetOrCreateSheet(ThisWorkbook, DEADLINE_SHEET)
@@ -30,6 +37,7 @@ Public Sub 期限管理シートを準備()
 End Sub
 
 ' 選択対象の行からメールを作成し、送信せずOutlookの下書きに保存する。
+' ── メール下書きを一括作成 ──
 Public Sub メール下書きを一括作成()
     On Error GoTo Failed
 
@@ -101,6 +109,7 @@ Failed:
 End Sub
 
 ' 期限管理シートの対象行から期限リマインドを下書き保存する。
+' ── 期限リマインド下書きを作成 ──
 Public Sub 期限リマインド下書きを作成()
     On Error GoTo Failed
 
@@ -192,6 +201,7 @@ Failed:
     MsgBox "期限リマインド下書きの作成に失敗しました: " & Err.Description, vbCritical
 End Sub
 
+' ── BuildDeadlineBody ──
 Private Function BuildDeadlineBody(ByVal taskName As String, ByVal dueDate As Date, _
                                    ByVal ownerName As String) As String
     Dim body As String
@@ -202,6 +212,7 @@ Private Function BuildDeadlineBody(ByVal taskName As String, ByVal dueDate As Da
     BuildDeadlineBody = body
 End Function
 
+' ── GetOutlookApp ──
 Private Function GetOutlookApp() As Object
     On Error Resume Next
     Set GetOutlookApp = GetObject(, "Outlook.Application")
@@ -211,12 +222,14 @@ Private Function GetOutlookApp() As Object
     End If
 End Function
 
+' ── IsSelected ──
 Private Function IsSelected(ByVal value As Variant) As Boolean
     Dim text As String
     text = LCase$(Trim$(CStr(value)))
     IsSelected = (text = "はい" Or text = "yes" Or text = "y" Or text = "1" Or text = "true")
 End Function
 
+' ── HeaderArray ──
 Private Function HeaderArray(ByVal a As String, ByVal b As String, ByVal c As String, _
                              ByVal d As String, ByVal e As String, ByVal f As String) As Variant
     Dim result(1 To 1, 1 To 6) As Variant
@@ -229,6 +242,7 @@ Private Function HeaderArray(ByVal a As String, ByVal b As String, ByVal c As St
     HeaderArray = result
 End Function
 
+' ── DeadlineHeaderArray ──
 Private Function DeadlineHeaderArray() As Variant
     Dim result(1 To 1, 1 To 7) As Variant
     result(1, 1) = "タスク・契約名"
@@ -241,6 +255,7 @@ Private Function DeadlineHeaderArray() As Variant
     DeadlineHeaderArray = result
 End Function
 
+' ── EnsureHeaders ──
 Private Sub EnsureHeaders(ByVal ws As Worksheet, ByVal expected As Variant)
     Dim i As Long
     For i = LBound(expected) To UBound(expected)
@@ -251,6 +266,7 @@ Private Sub EnsureHeaders(ByVal ws As Worksheet, ByVal expected As Variant)
     Next i
 End Sub
 
+' ── LastUsedRow ──
 Private Function LastUsedRow(ByVal ws As Worksheet) As Long
     Dim found As Range
     Set found = ws.Cells.Find(What:="*", LookIn:=xlFormulas, _
@@ -258,6 +274,7 @@ Private Function LastUsedRow(ByVal ws As Worksheet) As Long
     If Not found Is Nothing Then LastUsedRow = found.Row
 End Function
 
+' ── GetOrCreateSheet ──
 Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As String) As Worksheet
     On Error Resume Next
     Set GetOrCreateSheet = wb.Worksheets(sheetName)
@@ -267,3 +284,7 @@ Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As Strin
         GetOrCreateSheet.Name = sheetName
     End If
 End Function
+
+
+
+

@@ -1,3 +1,0 @@
-Sub FormShow()
-    UserForm1.Show
-End Sub

@@ -1,5 +1,10 @@
 Attribute VB_Name = "Mod04_重複処理"
 Option Explicit
+' ファイル処理概要: 辞書でキー照合、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: 重複ハイライトを中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「重複ハイライト」を選択して実行する。
 
 '==================================================
 ' Mod04_重複処理
@@ -14,6 +19,7 @@ Private Const HIGHLIGHT_COLOR As Long = &H9AFFFF   ' 薄い黄色 (RGB 255,255,1
 '--------------------------------------------------
 ' メイン: 重複行をハイライト（2件目以降に色付け）
 '--------------------------------------------------
+' ── 重複ハイライト ──
 Public Sub 重複ハイライト()
     Dim keyCols As Variant
     keyCols = AskKeyColumns()
@@ -57,6 +63,7 @@ End Sub
 '--------------------------------------------------
 ' メイン: 重複行を削除（最初の1件を残す）
 '--------------------------------------------------
+' ── 重複削除 ──
 Public Sub 重複削除()
     Dim keyCols As Variant
     keyCols = AskKeyColumns()
@@ -110,6 +117,7 @@ End Sub
 '--------------------------------------------------
 ' ハイライトを解除
 '--------------------------------------------------
+' ── ハイライト解除 ──
 Public Sub ハイライト解除()
     ActiveSheet.UsedRange.Interior.ColorIndex = xlNone
     MsgBox "ハイライトを解除しました。", vbInformation
@@ -119,6 +127,7 @@ End Sub
 ' 重複判定キーの列番号をユーザーに確認
 ' 複数列はカンマ区切り（例: 1,3）で複合キー判定
 '--------------------------------------------------
+' ── AskKeyColumns ──
 Private Function AskKeyColumns() As Variant
     Dim ans As String
     ans = InputBox("重複判定に使う列番号を入力してください" & vbCrLf & _
@@ -150,6 +159,7 @@ End Function
 ' 指定行の複合キー文字列を生成
 ' 表記揺れによる判定漏れを防ぐため CleanText を適用
 '--------------------------------------------------
+' ── BuildKey ──
 Private Function BuildKey(ByVal ws As Worksheet, ByVal r As Long, _
                           ByVal keyCols As Variant) As String
     Dim i As Long
@@ -159,3 +169,7 @@ Private Function BuildKey(ByVal ws As Worksheet, ByVal r As Long, _
     Next i
     BuildKey = key
 End Function
+
+
+
+

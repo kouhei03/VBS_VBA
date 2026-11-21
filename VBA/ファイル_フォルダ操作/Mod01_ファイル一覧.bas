@@ -1,8 +1,14 @@
 Attribute VB_Name = "Mod01_ファイル一覧"
 Option Explicit
+' ファイル処理概要: ファイル・フォルダを操作、ブック・シートを処理、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: フォルダ内ファイル一覧を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、Windowsファイルシステム、必要な実行権限。
+' ファイル実行例: ExcelのAlt+F8から「フォルダ内ファイル一覧」を選択して実行する。
 
 ' 指定フォルダ内のファイル情報をシートに一覧出力する。
 ' サブフォルダを含めるかどうかは実行時に選択する。
+' ── フォルダ内ファイル一覧 ──
 Public Sub フォルダ内ファイル一覧()
     Dim folderPath As String
     folderPath = SelectFolder("一覧化するフォルダを選択してください")
@@ -56,6 +62,7 @@ Failed:
     MsgBox "ファイル一覧の作成に失敗しました: " & Err.Description, vbCritical
 End Sub
 
+' ── CollectFiles ──
 Private Sub CollectFiles(ByVal folder As Object, ByRef files As Collection, _
                          ByVal includeSubfolders As Boolean)
     Dim file As Object
@@ -71,6 +78,7 @@ Private Sub CollectFiles(ByVal folder As Object, ByRef files As Collection, _
     End If
 End Sub
 
+' ── SelectFolder ──
 Private Function SelectFolder(ByVal title As String) As String
     With Application.FileDialog(msoFileDialogFolderPicker)
         .Title = title
@@ -79,6 +87,7 @@ Private Function SelectFolder(ByVal title As String) As String
     End With
 End Function
 
+' ── GetOrCreateSheet ──
 Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As String) As Worksheet
     On Error Resume Next
     Set GetOrCreateSheet = wb.Worksheets(sheetName)
@@ -89,3 +98,7 @@ Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As Strin
         GetOrCreateSheet.Name = sheetName
     End If
 End Function
+
+
+
+

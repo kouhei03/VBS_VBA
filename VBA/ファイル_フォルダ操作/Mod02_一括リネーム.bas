@@ -1,8 +1,14 @@
 Attribute VB_Name = "Mod02_一括リネーム"
 Option Explicit
+' ファイル処理概要: ファイル・フォルダを操作、ブック・シートを処理、辞書でキー照合、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: ファイル名一括変更を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、Windowsファイルシステム、必要な実行権限。
+' ファイル実行例: ExcelのAlt+F8から「ファイル名一括変更」を選択して実行する。
 
 ' 選択フォルダ直下のファイル名に接頭辞と置換ルールを適用する。
 ' 実行前に変更一覧を表示し、確認後に一時名を経由してリネームする。
+' ── ファイル名一括変更 ──
 Public Sub ファイル名一括変更()
     Dim folderPath As String
     folderPath = SelectFolder("リネームするファイルがあるフォルダを選択してください")
@@ -161,6 +167,7 @@ Failed:
            "可能な範囲で元のファイル名に戻しました。フォルダ内をご確認ください。", vbCritical
 End Sub
 
+' ── PromptText ──
 Private Function PromptText(ByVal prompt As String, ByVal title As String, _
                             ByRef canceled As Boolean) As String
     Dim answer As Variant
@@ -173,6 +180,7 @@ Private Function PromptText(ByVal prompt As String, ByVal title As String, _
     End If
 End Function
 
+' ── IsValidFileName ──
 Private Function IsValidFileName(ByVal fileName As String) As Boolean
     If Len(fileName) = 0 Or fileName = "." Or fileName = ".." Then Exit Function
     If Right$(fileName, 1) = "." Or Right$(fileName, 1) = " " Then Exit Function
@@ -186,6 +194,7 @@ Private Function IsValidFileName(ByVal fileName As String) As Boolean
     IsValidFileName = True
 End Function
 
+' ── SelectFolder ──
 Private Function SelectFolder(ByVal title As String) As String
     With Application.FileDialog(msoFileDialogFolderPicker)
         .Title = title
@@ -194,6 +203,7 @@ Private Function SelectFolder(ByVal title As String) As String
     End With
 End Function
 
+' ── GetOrCreateSheet ──
 Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As String) As Worksheet
     On Error Resume Next
     Set GetOrCreateSheet = wb.Worksheets(sheetName)
@@ -204,3 +214,7 @@ Private Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As Strin
         GetOrCreateSheet.Name = sheetName
     End If
 End Function
+
+
+
+

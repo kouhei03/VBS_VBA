@@ -1,5 +1,10 @@
 Attribute VB_Name = "Mod02_クレンジング"
 Option Explicit
+' ファイル処理概要: エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: データクレンジング実行を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「データクレンジング実行」を選択して実行する。
 
 '==================================================
 ' Mod02_クレンジング
@@ -12,6 +17,7 @@ Option Explicit
 '--------------------------------------------------
 ' メイン: 選択範囲（または使用範囲）を一括クレンジング
 '--------------------------------------------------
+' ── データクレンジング実行 ──
 Public Sub データクレンジング実行()
     Dim target As Range
     If TypeName(Selection) = "Range" And Selection.Cells.Count > 1 Then
@@ -66,6 +72,7 @@ End Sub
 '--------------------------------------------------
 ' 1セル分のテキストをクレンジング
 '--------------------------------------------------
+' ── CleanText ──
 Public Function CleanText(ByVal s As String) As String
     s = NormalizeWidth(s)
     s = NormalizeCompanyName(s)
@@ -77,6 +84,7 @@ End Function
 ' 全角・半角の統一
 '   英数字と記号 → 半角 / カタカナ → 全角
 '--------------------------------------------------
+' ── NormalizeWidth ──
 Public Function NormalizeWidth(ByVal s As String) As String
     Dim result As String
     Dim i As Long
@@ -107,6 +115,7 @@ End Function
 '--------------------------------------------------
 ' 会社表記の統一（すべて「株式会社」等の正式表記へ）
 '--------------------------------------------------
+' ── NormalizeCompanyName ──
 Public Function NormalizeCompanyName(ByVal s As String) As String
     ' 半角カッコ表記（NormalizeWidth後は半角カッコになっている想定）
     s = Replace(s, "(株)", "株式会社")
@@ -125,6 +134,7 @@ End Function
 '--------------------------------------------------
 ' 前後スペース削除 + 文中の連続スペースを1つに圧縮
 '--------------------------------------------------
+' ── TrimSpaces ──
 Public Function TrimSpaces(ByVal s As String) As String
     s = Replace(s, "　", " ")           ' 全角スペース → 半角
     s = Replace(s, vbTab, " ")
@@ -133,3 +143,7 @@ Public Function TrimSpaces(ByVal s As String) As String
     Loop
     TrimSpaces = Trim$(s)
 End Function
+
+
+
+

@@ -1,5 +1,10 @@
 Attribute VB_Name = "Mod00_共通"
 Option Explicit
+' ファイル処理概要: ブック・シートを処理、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: GetLastRowを中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「GetLastRow」を選択して実行する。
 
 '==================================================
 ' Mod00_共通
@@ -9,6 +14,7 @@ Option Explicit
 '--------------------------------------------------
 ' 指定シートの最終行を取得（全列を対象）
 '--------------------------------------------------
+' ── GetLastRow ──
 Public Function GetLastRow(ByVal ws As Worksheet) As Long
     Dim rng As Range
     Set rng = ws.Cells.Find(What:="*", LookIn:=xlFormulas, _
@@ -23,6 +29,7 @@ End Function
 '--------------------------------------------------
 ' 指定シートの最終列を取得（全行を対象）
 '--------------------------------------------------
+' ── GetLastCol ──
 Public Function GetLastCol(ByVal ws As Worksheet) As Long
     Dim rng As Range
     Set rng = ws.Cells.Find(What:="*", LookIn:=xlFormulas, _
@@ -37,6 +44,7 @@ End Function
 '--------------------------------------------------
 ' シートの存在確認
 '--------------------------------------------------
+' ── SheetExists ──
 Public Function SheetExists(ByVal wb As Workbook, ByVal sheetName As String) As Boolean
     Dim ws As Worksheet
     On Error Resume Next
@@ -48,6 +56,7 @@ End Function
 '--------------------------------------------------
 ' シートを取得（なければ新規作成）
 '--------------------------------------------------
+' ── GetOrCreateSheet ──
 Public Function GetOrCreateSheet(ByVal wb As Workbook, ByVal sheetName As String) As Worksheet
     If SheetExists(wb, sheetName) Then
         Set GetOrCreateSheet = wb.Worksheets(sheetName)
@@ -60,6 +69,7 @@ End Function
 '--------------------------------------------------
 ' シート名として使えない文字を置換
 '--------------------------------------------------
+' ── SafeSheetName ──
 Public Function SafeSheetName(ByVal s As String) As String
     Dim badChars As Variant
     Dim i As Long
@@ -75,6 +85,7 @@ End Function
 '--------------------------------------------------
 ' フォルダ選択ダイアログ
 '--------------------------------------------------
+' ── SelectFolder ──
 Public Function SelectFolder(Optional ByVal title As String = "フォルダを選択してください") As String
     With Application.FileDialog(msoFileDialogFolderPicker)
         .title = title
@@ -90,6 +101,7 @@ End Function
 '--------------------------------------------------
 ' 高速化設定の ON/OFF
 '--------------------------------------------------
+' ── SpeedUp ──
 Public Sub SpeedUp(ByVal enable As Boolean)
     With Application
         .ScreenUpdating = Not enable
@@ -98,3 +110,7 @@ Public Sub SpeedUp(ByVal enable As Boolean)
         .DisplayAlerts = Not enable
     End With
 End Sub
+
+
+
+

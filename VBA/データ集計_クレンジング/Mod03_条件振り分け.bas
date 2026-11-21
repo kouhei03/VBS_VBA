@@ -1,5 +1,10 @@
 Attribute VB_Name = "Mod03_条件振り分け"
 Option Explicit
+' ファイル処理概要: ブック・シートを処理、辞書でキー照合、エラー処理分岐を実行する。
+' ファイルないコード処理詳細解説: 条件別シート振り分けを中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「条件別シート振り分け」を選択して実行する。
 
 '==================================================
 ' Mod03_条件振り分け
@@ -12,6 +17,7 @@ Option Explicit
 '--------------------------------------------------
 ' メイン: キー列の値ごとに「別シート」へ振り分け
 '--------------------------------------------------
+' ── 条件別シート振り分け ──
 Public Sub 条件別シート振り分け()
     Dim keyCol As Long
     keyCol = AskKeyColumn()
@@ -54,6 +60,7 @@ End Sub
 '--------------------------------------------------
 ' メイン: キー列の値ごとに「別ブック」へ振り分け保存
 '--------------------------------------------------
+' ── 条件別ブック振り分け ──
 Public Sub 条件別ブック振り分け()
     Dim keyCol As Long
     keyCol = AskKeyColumn()
@@ -104,6 +111,7 @@ End Sub
 '--------------------------------------------------
 ' キー列番号をユーザーに確認
 '--------------------------------------------------
+' ── AskKeyColumn ──
 Private Function AskKeyColumn() As Long
     Dim ans As String
     ans = InputBox("振り分けキーの列番号を入力してください" & vbCrLf & _
@@ -118,6 +126,7 @@ End Function
 '--------------------------------------------------
 ' キー列のユニーク値を収集（Dictionary）
 '--------------------------------------------------
+' ── CollectKeys ──
 Private Function CollectKeys(ByVal ws As Worksheet, ByVal keyCol As Long) As Object
     Dim dic As Object
     Set dic = CreateObject("Scripting.Dictionary")
@@ -135,6 +144,7 @@ End Function
 '--------------------------------------------------
 ' AutoFilterで抽出して貼り付け
 '--------------------------------------------------
+' ── CopyFiltered ──
 Private Sub CopyFiltered(ByVal wsSrc As Worksheet, ByVal keyCol As Long, _
                          ByVal key As String, ByVal lastRow As Long, _
                          ByVal lastCol As Long, ByVal destCell As Range)
@@ -145,3 +155,7 @@ Private Sub CopyFiltered(ByVal wsSrc As Worksheet, ByVal keyCol As Long, _
     Application.CutCopyMode = False
     wsSrc.AutoFilterMode = False
 End Sub
+
+
+
+
