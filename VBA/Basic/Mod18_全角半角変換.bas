@@ -1,30 +1,26 @@
 Attribute VB_Name = "Mod18_全角半角変換"
 Option Explicit
-' [設定解説追加済み]
-' [ブロック解説: モジュール設定]
-' - モジュール名: Mod18_全角半角変換
-' - ファイル名: Mod18_全角半角変換.bas
-' - 目的: このモジュールに定義されたマクロまたは関数を、Excelの標準オブジェクトを使って実行します。
-' - 実行前設定: 対象ブック、対象シート、選択範囲、入力ダイアログの値が正しいことを確認してください。
-' - 出力設定: シート・ブック・ファイルへの出力先を、既存データを上書きしない運用か確認してください。
-' - セキュリティ設定: 外部アプリ、ネットワーク、DB、レジストリ、メール送信へ影響する場合はテスト環境で先に確認します。
-' - 注意: 処理前にバックアップを作成し、確認ダイアログ、権限、保存先、エラー処理の設定を確認してください。
+' ファイル処理概要: セル・シート・ブック・ダイアログを使用した業務処理を実行する。
+' ファイルないコード処理詳細解説: 全角英数を半角にを中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「全角英数を半角に」を選択して実行する。
 
-' [ブロック解説: プロシージャ]
-' 宣言ブロックです。Public Function 全角英数を半角に(ByVal text As String) As String の処理範囲、引数、対象ブック・シート、利用する設定値を確認してから実行します。
+' ── 全角英数を半角に ──
 Public Function 全角英数を半角に(ByVal text As String) As String
     全角英数を半角に = StrConv(text, vbNarrow)
 End Function
 
-' [ブロック解説: プロシージャ]
-' 宣言ブロックです。Public Function 半角英数を全角に(ByVal text As String) As String の処理範囲、引数、対象ブック・シート、利用する設定値を確認してから実行します。
+' ── 半角英数を全角に ──
 Public Function 半角英数を全角に(ByVal text As String) As String
     半角英数を全角に = StrConv(text, vbWide)
 End Function
 
-' [ブロック解説: プロシージャ]
-' 宣言ブロックです。Public Function 半角カナを全角に(ByVal text As String) As String の処理範囲、引数、対象ブック・シート、利用する設定値を確認してから実行します。
+' ── 半角カナを全角に ──
 Public Function 半角カナを全角に(ByVal text As String) As String
     半角カナを全角に = StrConv(text, vbWide + vbKatakana)
 End Function
+
+
+
 

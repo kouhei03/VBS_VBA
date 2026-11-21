@@ -1,30 +1,26 @@
 Attribute VB_Name = "Mod26_セル値判定"
 Option Explicit
-' [設定解説追加済み]
-' [ブロック解説: モジュール設定]
-' - モジュール名: Mod26_セル値判定
-' - ファイル名: Mod26_セル値判定.bas
-' - 目的: このモジュールに定義されたマクロまたは関数を、Excelの標準オブジェクトを使って実行します。
-' - 実行前設定: 対象ブック、対象シート、選択範囲、入力ダイアログの値が正しいことを確認してください。
-' - 出力設定: シート・ブック・ファイルへの出力先を、既存データを上書きしない運用か確認してください。
-' - セキュリティ設定: 外部アプリ、ネットワーク、DB、レジストリ、メール送信へ影響する場合はテスト環境で先に確認します。
-' - 注意: 処理前にバックアップを作成し、確認ダイアログ、権限、保存先、エラー処理の設定を確認してください。
+' ファイル処理概要: セル・シート・ブック・ダイアログを使用した業務処理を実行する。
+' ファイルないコード処理詳細解説: セルが空か判定を中心に、入力取得、処理、出力の順で実行する。
+' ファイル利用方法: 対応する処理に必要なシート・セル・選択範囲・ファイルを準備し、マクロを実行する。
+' ファイル利用環境: Windows版Excel、マクロ有効ブック、対象シートまたは選択範囲。
+' ファイル実行例: ExcelのAlt+F8から「セルが空か判定」を選択して実行する。
 
-' [ブロック解説: プロシージャ]
-' 宣言ブロックです。Public Function セルが空か判定(ByVal target As Range) As Boolean の処理範囲、引数、対象ブック・シート、利用する設定値を確認してから実行します。
+' ── セルが空か判定 ──
 Public Function セルが空か判定(ByVal target As Range) As Boolean
     セルが空か判定 = IsEmpty(target.Value) Or Trim$(CStr(target.Value)) = ""
 End Function
 
-' [ブロック解説: プロシージャ]
-' 宣言ブロックです。Public Function セルがNullか判定(ByVal target As Range) As Boolean の処理範囲、引数、対象ブック・シート、利用する設定値を確認してから実行します。
+' ── セルがNullか判定 ──
 Public Function セルがNullか判定(ByVal target As Range) As Boolean
     セルがNullか判定 = IsNull(target.Value)
 End Function
 
-' [ブロック解説: プロシージャ]
-' 宣言ブロックです。Public Function セルがエラーか判定(ByVal target As Range) As Boolean の処理範囲、引数、対象ブック・シート、利用する設定値を確認してから実行します。
+' ── セルがエラーか判定 ──
 Public Function セルがエラーか判定(ByVal target As Range) As Boolean
     セルがエラーか判定 = IsError(target.Value)
 End Function
+
+
+
 
